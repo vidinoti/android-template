@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="VidinotiAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/vidinotiColorPrimary</item>
+        <item name="colorPrimaryDark">@color/vidinotiColorPrimaryDark</item>
+        <item name="colorAccent">@color/vidinotiColorAccent</item>
+    </style>
+
+    <style name="VidinotiAppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vidinotiColorPrimary">#0d6eb6</color>
+    <color name="vidinotiColorPrimaryDark">#095288</color>
+    <color name="vidinotiColorPrimaryLight">#4bb9ea</color>
+    <color name="vidinotiColorAccent">#e8b646</color>
+</resources>

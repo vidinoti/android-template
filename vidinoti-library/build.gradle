@@ -22,12 +22,8 @@ android {
 }
 
 dependencies {
-    // SDK and its external dependencies
-    implementation project(path: ':vdarsdk-release')
-    implementation ('com.github.barteksc:android-pdf-viewer:2.7.0') {
-        exclude group: 'com.android.support'
-    }
-    implementation 'com.google.ar:core:1.18.0'
+    // SDK
+    implementation 'com.github.vidinoti:android-sdk:7.2.1'
     // Push notification dependencies
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
 

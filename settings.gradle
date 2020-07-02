@@ -1,4 +1,3 @@
-include ':vdarsdk-release'
 include ':vidinoti-library'
 include ':app'
 rootProject.name='VidinotiAndroidTemplate'

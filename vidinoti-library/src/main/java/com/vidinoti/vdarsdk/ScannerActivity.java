@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -115,6 +116,7 @@ public class ScannerActivity extends AppCompatActivity implements NavigationView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 menuButton.setVisibility(View.VISIBLE);
                 overlayContainer.setVisibility(View.VISIBLE);
             }
@@ -127,6 +129,7 @@ public class ScannerActivity extends AppCompatActivity implements NavigationView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 menuButton.setVisibility(View.GONE);
                 overlayContainer.setVisibility(View.GONE);
             }

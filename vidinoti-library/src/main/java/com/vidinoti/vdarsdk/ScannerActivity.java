@@ -20,13 +20,8 @@ import com.vidinoti.android.vdarsdk.VDARSDKController;
 @SuppressWarnings("unused")
 public class ScannerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScannerFragmentListener {
 
-    /**
-     * Interval between the synchronization when the application is opened (30 minutes)
-     */
-    private static final long MIN_SYNC_INTERVAL = 1000 * 60 * 30;
-
     private DrawerLayout drawerLayout;
-    private long lastSyncTimestamp = 0;
+
     private NavigationView navigationView;
     private FrameLayout overlayContainer;
     private View menuButton;
@@ -79,15 +74,7 @@ public class ScannerActivity extends AppCompatActivity implements NavigationView
     @Override
     protected void onResume() {
         super.onResume();
-        synchronize(false);
-    }
-
-    public void synchronize(boolean force) {
-        long now = System.currentTimeMillis();
-        if (force || now - lastSyncTimestamp > MIN_SYNC_INTERVAL) {
-            lastSyncTimestamp = now;
-            VidinotiAR.getInstance().synchronize();
-        }
+        VidinotiAR.getInstance().synchronizeIfNeeded();
     }
 
     public DrawerLayout getDrawerLayout() {

@@ -22,5 +22,6 @@ public class MyApplication extends Application {
                 .setNotificationSupport(true)
                 .build();
         VidinotiAR.init(this, options);
+        VidinotiAR.getInstance().synchronize();
     }
 }

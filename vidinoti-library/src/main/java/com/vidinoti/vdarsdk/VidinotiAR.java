@@ -21,7 +21,6 @@ import java.util.Observer;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@SuppressWarnings("unused")
 public class VidinotiAR {
 
     public interface VidinotiEventListener {
@@ -32,7 +31,14 @@ public class VidinotiAR {
 
     private static final String STORAGE_KEY_ADDITIONAL_CONTENT = "com.vidinoti.vdarsdk.ADDITIONAL_TAG";
 
+    /**
+     * Interval between the synchronization when the application is opened (30 minutes)
+     */
+    private static final long MIN_SYNC_INTERVAL = 1000 * 60 * 15;
+
     private static VidinotiAR instance = null;
+
+    private long lastSyncTimestamp = 0;
 
     public static void init(Context context, VidinotiAROptions options) {
         if (instance != null) {
@@ -71,6 +77,7 @@ public class VidinotiAR {
 
     public void synchronize() {
         if (syncInProgress.compareAndSet(false, true)) {
+            lastSyncTimestamp = System.currentTimeMillis();
             final List<VDARPrior> priors = getSyncPriors();
             controller.addNewAfterLoadingTask(new Runnable() {
                 public void run() {
@@ -88,6 +95,13 @@ public class VidinotiAR {
         }
     }
 
+    public void synchronizeIfNeeded() {
+        long now = System.currentTimeMillis();
+        if (now - lastSyncTimestamp > MIN_SYNC_INTERVAL) {
+            VidinotiAR.getInstance().synchronize();
+        }
+    }
+
     private List<VDARPrior> getSyncPriors() {
         List<VDARPrior> priors = new LinkedList<>();
         switch (options.getSynchronizationMode()) {
@@ -100,6 +114,9 @@ public class VidinotiAR {
                 if (additionalTag != null) {
                     priors.add(getTagPrior(additionalTag));
                 }
+                break;
+            case LANGUAGE_ONLY:
+                priors.add(getLanguageTag());
                 break;
             default:
                 if (options.isMultilingualEnabled()) {

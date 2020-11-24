@@ -10,7 +10,8 @@ public class VidinotiAROptions {
     public enum SynchronizationMode {
         NO_TAG,
         DEFAULT_TAG,
-        DEFAULT_TAG_WITH_ADDITIONAL_CONTENT
+        DEFAULT_TAG_WITH_ADDITIONAL_CONTENT,
+        LANGUAGE_ONLY
     }
 
     private String licenseKey;

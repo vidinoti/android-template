@@ -1,7 +1,6 @@
 package com.vidinoti.vdarsdk;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,7 +14,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.vidinoti.android.vdarsdk.VDARSDKController;
 
 @SuppressWarnings("unused")
 public class ScannerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScannerFragmentListener {
@@ -54,21 +52,7 @@ public class ScannerActivity extends AppCompatActivity implements NavigationView
             navigationView.inflateMenu(menuId);
         }
 
-        final Intent intent = getIntent();
-        if (intent != null && intent.getExtras() != null
-                && intent.getExtras().getString("nid") != null) {
-
-            final String nid = intent.getExtras().getString("nid");
-
-            VDARSDKController.getInstance().addNewAfterLoadingTask(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            boolean remote = intent.getExtras().getBoolean("remote");
-                            VDARSDKController.getInstance().processNotification(nid, remote);
-                        }
-                    });
-        }
+        VidinotiAR.getInstance().handleNotification(this);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.vidinoti.vdarsdk;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -181,4 +184,27 @@ public class VidinotiAR {
         eventListeners.remove(listener);
     }
 
+    /**
+     * Call this method in your main Activity {@link Activity#onCreate(Bundle)} for processing any push notification
+     * received.
+     *
+     * @param activity your main Activity
+     */
+    public void handleNotification(Activity activity) {
+        final Intent intent = activity.getIntent();
+        if (intent != null && intent.getExtras() != null
+                && intent.getExtras().getString("nid") != null) {
+
+            final String nid = intent.getExtras().getString("nid");
+
+            VDARSDKController.getInstance().addNewAfterLoadingTask(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean remote = intent.getExtras().getBoolean("remote");
+                            VDARSDKController.getInstance().processNotification(nid, remote);
+                        }
+                    });
+        }
+    }
 }

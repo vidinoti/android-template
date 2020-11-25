@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +24,7 @@ import com.vidinoti.android.vdarsdk.VDARRemoteControllerListener;
 import com.vidinoti.android.vdarsdk.VDARSDKController;
 import com.vidinoti.android.vdarsdk.VDARSDKControllerEventReceiver;
 import com.vidinoti.android.vdarsdk.camera.DeviceCameraImageSender;
+import com.vidinoti.vdarsdk.view.VidinotiProgressView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,9 +38,8 @@ public class ScannerFragment extends Fragment implements VDARRemoteControllerLis
 
     private ScannerFragmentListener listener;
     private VDARAnnotationView annotationView;
-    private ProgressBar progressBar;
-    private TextView progressTextView;
     private View overlayView;
+    private VidinotiProgressView progressView;
 
     public ScannerFragment() {
         // Required empty public constructor
@@ -74,11 +72,7 @@ public class ScannerFragment extends Fragment implements VDARRemoteControllerLis
         annotationView = view.findViewById(R.id.annotationView);
         annotationView.setDarkScreenMode(false);
         annotationView.setAnimationSpeed(0);
-
-        progressBar = view.findViewById(R.id.progressBar);
-        progressBar.setMax(100);
-        progressBar.setIndeterminate(false);
-        progressTextView = view.findViewById(R.id.progressTextView);
+        progressView = view.findViewById(R.id.progressView);
         overlayView = view.findViewById(R.id.overlayView);
 
         return view;
@@ -96,27 +90,19 @@ public class ScannerFragment extends Fragment implements VDARRemoteControllerLis
     public void onPause() {
         super.onPause();
         annotationView.onPause();
-        hideSynchronizationProgress();
+        overlayView.setVisibility(View.VISIBLE);
         VDARRemoteController.getInstance().removeProgressListener(this);
         VDARSDKController.getInstance().unregisterEventReceiver(this);
-    }
-
-    private void hideSynchronizationProgress() {
-        progressTextView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        overlayView.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onSyncProgress(VDARRemoteController vdarRemoteController, float progress, boolean ready, String folder) {
+        progressView.setProgress((int) progress);
         if (progress < 100) {
-            progressTextView.setText((int) progress + "%");
-            progressTextView.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
             overlayView.setVisibility(View.GONE);
         } else {
-            hideSynchronizationProgress();
+            overlayView.setVisibility(View.VISIBLE);
         }
     }
 

@@ -23,7 +23,7 @@ android {
 
 dependencies {
     // SDK
-    implementation 'com.github.vidinoti:android-sdk:7.2.1'
+    api 'com.github.vidinoti:android-sdk:7.2.1'
     // Push notification dependencies
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
 

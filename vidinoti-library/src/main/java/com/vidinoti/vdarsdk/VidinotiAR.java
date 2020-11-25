@@ -40,10 +40,10 @@ public class VidinotiAR {
 
     private long lastSyncTimestamp = 0;
 
-    public static void init(Context context, VidinotiAROptions options) {
+    public static VidinotiAR init(Context context, VidinotiAROptions options) {
         if (instance != null) {
             Log.w(TAG, "VidinotiAR has already been initialized");
-            return;
+            return instance;
         }
         File vidinotiSdkFolder = new File(context.getFilesDir(), "vidinotiSdk");
         String storageDir = vidinotiSdkFolder.getAbsolutePath();
@@ -53,6 +53,7 @@ public class VidinotiAR {
             controller.setNotificationsSupport(true);
         }
         instance = new VidinotiAR(context.getApplicationContext(), controller, options);
+        return instance;
     }
 
     @NonNull

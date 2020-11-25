@@ -1,6 +1,6 @@
 # Android Library for the Vidinoti SDK
 
-## Installation
+## Installation
 
 In your project's `build.gradle` file, add the following
 

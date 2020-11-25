@@ -15,13 +15,12 @@ public class MyApplication extends Application {
         // TODO Configure me
         VidinotiAROptions options = new VidinotiAROptions.Builder(licenseKey)
                 .setCodeRecognitionEnabled(true)
-                .setSynchronizationMode(VidinotiAROptions.SynchronizationMode.NO_TAG)
+                .setSynchronizationMode(VidinotiAROptions.SynchronizationMode.LANGUAGE_ONLY)
                 .setMultilingualEnabled(true)
                 .setDefaultLanguage(VidinotiLanguage.EN)
                 .setSupportedLanguages(VidinotiLanguage.EN, VidinotiLanguage.FR)
                 .setNotificationSupport(true)
                 .build();
-        VidinotiAR.init(this, options);
-        VidinotiAR.getInstance().synchronize();
+        VidinotiAR.init(this, options).synchronize();
     }
 }

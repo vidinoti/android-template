@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.vidinoti.android.vdarsdk.VDARIntersectionPrior;
 import com.vidinoti.android.vdarsdk.VDARPrior;
 import com.vidinoti.android.vdarsdk.VDARRemoteController;
+import com.vidinoti.android.vdarsdk.VDARRemoteControllerListener;
 import com.vidinoti.android.vdarsdk.VDARSDKController;
 import com.vidinoti.android.vdarsdk.VDARTagPrior;
 
@@ -24,7 +25,7 @@ import java.util.Observer;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class VidinotiAR {
+public class VidinotiAR implements VDARRemoteControllerListener {
 
     public interface VidinotiEventListener {
         void onTagQrCodeScanned(String tagName);
@@ -40,8 +41,6 @@ public class VidinotiAR {
     private static final long MIN_SYNC_INTERVAL = 1000 * 60 * 15;
 
     private static VidinotiAR instance = null;
-
-    private long lastSyncTimestamp = 0;
 
     public static VidinotiAR init(Context context, VidinotiAROptions options) {
         if (instance != null) {
@@ -72,11 +71,15 @@ public class VidinotiAR {
     private final AtomicBoolean syncInProgress = new AtomicBoolean();
     private final VidinotiStorage storage;
     private final List<VidinotiEventListener> eventListeners = new CopyOnWriteArrayList<>();
+    private final List<VidinotiSynchronizationProgressListener> syncProgressListeners = new CopyOnWriteArrayList<>();
+    private long lastSyncTimestamp = 0;
+    private int syncProgress = 0;
 
     private VidinotiAR(Context context, VDARSDKController controller, VidinotiAROptions options) {
         this.options = options;
         this.controller = controller;
         this.storage = new VidinotiStorage(context);
+        VDARRemoteController.getInstance().addProgressListener(this);
     }
 
     public void synchronize() {
@@ -206,5 +209,38 @@ public class VidinotiAR {
                         }
                     });
         }
+    }
+
+    @Override
+    public void onSyncProgress(VDARRemoteController remoteController, float percent, boolean ready, String folder) {
+        int progress = (int) percent;
+        syncProgress = progress;
+        for (VidinotiSynchronizationProgressListener listener : syncProgressListeners) {
+            listener.onSyncProgress(progress);
+        }
+    }
+
+    /**
+     * Registers a synchronization progress listener. When the listener is added, it is directly called with the current
+     * synchronization progress (e.g. the listener is called with 100 if the synchronization is not running)
+     *
+     * @param listener the listener
+     */
+    public void addProgressListener(VidinotiSynchronizationProgressListener listener) {
+        syncProgressListeners.add(listener);
+        if (syncInProgress.get()) {
+            listener.onSyncProgress(syncProgress);
+        } else {
+            listener.onSyncProgress(100);
+        }
+    }
+
+    /**
+     * Unregisters the synchronization listener.
+     *
+     * @param listener the listener
+     */
+    public void removeProgressListener(VidinotiSynchronizationProgressListener listener) {
+        syncProgressListeners.remove(listener);
     }
 }

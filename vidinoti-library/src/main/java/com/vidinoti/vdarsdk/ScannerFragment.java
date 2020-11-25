@@ -30,7 +30,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class ScannerFragment extends Fragment implements VDARRemoteControllerListener, VDARSDKControllerEventReceiver {
+public class ScannerFragment extends Fragment implements VDARSDKControllerEventReceiver,
+        VidinotiSynchronizationProgressListener {
 
     private static final String TAG = ScannerFragment.class.getName();
 
@@ -82,7 +83,7 @@ public class ScannerFragment extends Fragment implements VDARRemoteControllerLis
     public void onResume() {
         super.onResume();
         annotationView.onResume();
-        VDARRemoteController.getInstance().addProgressListener(this);
+        VidinotiAR.getInstance().addProgressListener(this);
         VDARSDKController.getInstance().registerEventReceiver(this);
     }
 
@@ -91,19 +92,8 @@ public class ScannerFragment extends Fragment implements VDARRemoteControllerLis
         super.onPause();
         annotationView.onPause();
         overlayView.setVisibility(View.VISIBLE);
-        VDARRemoteController.getInstance().removeProgressListener(this);
+        VidinotiAR.getInstance().removeProgressListener(this);
         VDARSDKController.getInstance().unregisterEventReceiver(this);
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onSyncProgress(VDARRemoteController vdarRemoteController, float progress, boolean ready, String folder) {
-        progressView.setProgress((int) progress);
-        if (progress < 100) {
-            overlayView.setVisibility(View.GONE);
-        } else {
-            overlayView.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -192,5 +182,15 @@ public class ScannerFragment extends Fragment implements VDARRemoteControllerLis
         int vertical = getResources().getDimensionPixelSize(R.dimen.vidinoti_scanner_overlay_vertical_margin);
         params.setMargins(horizontal, vertical, horizontal, vertical);
         overlayView.setLayoutParams(params);
+    }
+
+    @Override
+    public void onSyncProgress(int progress) {
+        progressView.setProgress((int) progress);
+        if (progress < 100) {
+            overlayView.setVisibility(View.GONE);
+        } else {
+            overlayView.setVisibility(View.VISIBLE);
+        }
     }
 }

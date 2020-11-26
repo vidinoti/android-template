@@ -23,13 +23,13 @@ android {
 
 dependencies {
     // SDK
-    api 'com.github.vidinoti:android-sdk:7.2.1'
+    api 'com.github.vidinoti:android-sdk:7.2.4'
     // Push notification dependencies
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
 
     // Other dependencies
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.navigation:navigation-fragment:2.3.0'
-    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
 }

@@ -14,6 +14,8 @@ import com.vidinoti.android.vdarsdk.VDARRemoteController;
 import com.vidinoti.android.vdarsdk.VDARRemoteControllerListener;
 import com.vidinoti.android.vdarsdk.VDARSDKController;
 import com.vidinoti.android.vdarsdk.VDARTagPrior;
+import com.vidinoti.android.vdarsdk.geopoint.GeoPointManager;
+import com.vidinoti.android.vdarsdk.geopoint.VDARGPSPoint;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -242,5 +244,9 @@ public class VidinotiAR implements VDARRemoteControllerListener {
      */
     public void removeProgressListener(VidinotiSynchronizationProgressListener listener) {
         syncProgressListeners.remove(listener);
+    }
+
+    public List<VDARGPSPoint> getAllGpsPoints() {
+        return GeoPointManager.getGPSPointsInBoundingBox(-90, -180, 90, 180);
     }
 }

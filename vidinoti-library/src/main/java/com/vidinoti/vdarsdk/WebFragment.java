@@ -1,5 +1,6 @@
 package com.vidinoti.vdarsdk;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-@SuppressWarnings("unused")
 public class WebFragment extends Fragment {
 
     private static final String ARG_KEY_URL = "com.vidinoti.vdarsdk.URL";
 
     private WebView webView;
     private String url;
+    private WebFragmentDelegate delegate;
+
+    public interface WebFragmentDelegate {
+        @Nullable
+        WebViewClient getWebViewClient();
+    }
 
     public static WebFragment newInstance(String url) {
         WebFragment fragment = new WebFragment();
@@ -25,6 +31,14 @@ public class WebFragment extends Fragment {
         bundle.putString(ARG_KEY_URL, url);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof WebFragmentDelegate) {
+            delegate = (WebFragmentDelegate) context;
+        }
     }
 
     @Override
@@ -46,7 +60,18 @@ public class WebFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         webView = view.findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+        setupWebViewClient();
+    }
+
+    private void setupWebViewClient() {
+        WebViewClient webViewClient = null;
+        if (delegate != null) {
+            webViewClient = delegate.getWebViewClient();
+        }
+        if (webViewClient == null) {
+            webViewClient = new WebViewClient();
+        }
+        webView.setWebViewClient(webViewClient);
     }
 
     @Override

@@ -249,4 +249,13 @@ public class VidinotiAR implements VDARRemoteControllerListener {
     public List<VDARGPSPoint> getAllGpsPoints() {
         return GeoPointManager.getGPSPointsInBoundingBox(-90, -180, 90, 180);
     }
+
+    /**
+     * Returns true if a synchronization is running, false otherwise.
+     *
+     * @return true if a synchronization is running, false otherwise.
+     */
+    public boolean isSyncInProgress() {
+        return syncInProgress.get();
+    }
 }

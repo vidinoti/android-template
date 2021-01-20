@@ -144,4 +144,8 @@ public abstract class BaseScannerFragment extends Fragment implements VDARSDKCon
         Log.d(TAG, "Vidinoti SDK onRequireSynchronization - not implemented");
     }
 
+    @Override
+    public void onSyncProgress(int progress) {
+
+    }
 }

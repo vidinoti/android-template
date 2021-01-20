@@ -42,6 +42,7 @@ public class ScannerFragment extends BaseScannerFragment {
 
     @Override
     public void onPresentAnnotations() {
+        super.onPresentAnnotations();
         Activity activity = getActivity();
         if (activity != null) {
             activity.runOnUiThread(new Runnable() {
@@ -55,6 +56,7 @@ public class ScannerFragment extends BaseScannerFragment {
 
     @Override
     public void onAnnotationsHidden() {
+        super.onAnnotationsHidden();
         Activity activity = getActivity();
         if (activity != null) {
             activity.runOnUiThread(new Runnable() {
@@ -68,6 +70,7 @@ public class ScannerFragment extends BaseScannerFragment {
 
     @Override
     public void onSyncProgress(int progress) {
+        super.onSyncProgress(progress);
         progressView.setProgress((int) progress);
         if (progress < 100) {
             overlayView.setVisibility(View.GONE);

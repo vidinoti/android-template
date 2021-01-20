@@ -16,51 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <RelativeLayout
+    <com.vidinoti.vdarsdk.view.VidinotiViewfinderView
         android:id="@+id/overlayView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/vidinoti_scanner_overlay_horizontal_margin"
-        android:layout_marginTop="@dimen/vidinoti_scanner_overlay_vertical_margin"
-        android:layout_marginRight="@dimen/vidinoti_scanner_overlay_horizontal_margin"
-        android:layout_marginBottom="@dimen/vidinoti_scanner_overlay_vertical_margin">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:alpha="0.5"
-            android:src="@drawable/vidinoti_corner_top_left"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:alpha="0.5"
-            android:src="@drawable/vidinoti_corner_top_right"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:alpha="0.5"
-            android:src="@drawable/vidinoti_corner_bottom_left"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:alpha="0.5"
-            android:src="@drawable/vidinoti_corner_bottom_right"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

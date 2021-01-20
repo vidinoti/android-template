@@ -1,15 +1,12 @@
 package com.vidinoti.vdarsdk;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +16,6 @@ import com.vidinoti.android.vdarsdk.VDARAnnotationView;
 import com.vidinoti.android.vdarsdk.VDARCode;
 import com.vidinoti.android.vdarsdk.VDARContext;
 import com.vidinoti.android.vdarsdk.VDARPrior;
-import com.vidinoti.android.vdarsdk.VDARRemoteController;
-import com.vidinoti.android.vdarsdk.VDARRemoteControllerListener;
 import com.vidinoti.android.vdarsdk.VDARSDKController;
 import com.vidinoti.android.vdarsdk.VDARSDKControllerEventReceiver;
 import com.vidinoti.android.vdarsdk.camera.DeviceCameraImageSender;
@@ -171,17 +166,6 @@ public class ScannerFragment extends Fragment implements VDARSDKControllerEventR
     @Override
     public void onRequireSynchronization(ArrayList<VDARPrior> arrayList) {
         Log.d(TAG, "Vidinoti SDK onRequireSynchronization - not implemented");
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) overlayView.getLayoutParams();
-        int horizontal = getResources().getDimensionPixelSize(R.dimen.vidinoti_scanner_overlay_horizontal_margin);
-        int vertical = getResources().getDimensionPixelSize(R.dimen.vidinoti_scanner_overlay_vertical_margin);
-        params.setMargins(horizontal, vertical, horizontal, vertical);
-        overlayView.setLayoutParams(params);
     }
 
     @Override

@@ -16,6 +16,12 @@ public class VidinotiAROptions {
 
     private String licenseKey;
     private boolean codeRecognitionEnabled;
+
+    /**
+     * If true, open the URL when scanning a QR code containing a URL.
+     */
+    private boolean codeRecognitionOpenURL;
+
     private boolean multilingualEnabled;
     private VidinotiLanguage defaultLanguage;
     private Set<VidinotiLanguage> supportedLanguages;
@@ -28,6 +34,7 @@ public class VidinotiAROptions {
 
         private final String licenseKey;
         private boolean codeRecognitionEnabled = true;
+        private boolean codeRecognitionOpenURL = true;
         private SynchronizationMode synchronizationMode = SynchronizationMode.NO_TAG;
         private boolean multilingualEnabled = false;
         private VidinotiLanguage defaultLanguage = VidinotiLanguage.EN;
@@ -59,6 +66,11 @@ public class VidinotiAROptions {
             return this;
         }
 
+        public Builder setCodeRecognitionOpenURL(boolean codeRecognitionOpenURL) {
+            this.codeRecognitionOpenURL = codeRecognitionOpenURL;
+            return this;
+        }
+
         public Builder setMultilingualEnabled(boolean multilingualEnabled) {
             this.multilingualEnabled = multilingualEnabled;
             return this;
@@ -80,6 +92,7 @@ public class VidinotiAROptions {
             VidinotiAROptions options = new VidinotiAROptions();
             options.licenseKey = this.licenseKey;
             options.codeRecognitionEnabled = this.codeRecognitionEnabled;
+            options.codeRecognitionOpenURL = this.codeRecognitionOpenURL;
             options.defaultLanguage = this.defaultLanguage;
             options.defaultTag = this.defaultTag;
             options.multilingualEnabled = this.multilingualEnabled;
@@ -96,6 +109,10 @@ public class VidinotiAROptions {
 
     public boolean isCodeRecognitionEnabled() {
         return codeRecognitionEnabled;
+    }
+
+    public boolean isCodeRecognitionOpenURL() {
+        return codeRecognitionOpenURL;
     }
 
     public SynchronizationMode getSynchronizationMode() {

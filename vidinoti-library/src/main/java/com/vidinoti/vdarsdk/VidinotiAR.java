@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.vidinoti.android.vdarsdk.VDARContextPrior;
 import com.vidinoti.android.vdarsdk.VDARIntersectionPrior;
 import com.vidinoti.android.vdarsdk.VDARPrior;
 import com.vidinoti.android.vdarsdk.VDARRemoteController;
@@ -31,11 +32,13 @@ public class VidinotiAR implements VDARRemoteControllerListener {
 
     public interface VidinotiEventListener {
         void onTagQrCodeScanned(String tagName);
+        void onContentQrCodeScanned(String id);
     }
 
     private static final String TAG = VidinotiAR.class.getName();
 
-    private static final String STORAGE_KEY_ADDITIONAL_CONTENT = "com.vidinoti.vdarsdk.ADDITIONAL_TAG";
+    private static final String STORAGE_KEY_ADDITIONAL_CONTENT_ID = "com.vidinoti.vdarsdk.ADDITIONAL_CONTENT";
+    private static final String STORAGE_KEY_ADDITIONAL_CONTENT_TAG = "com.vidinoti.vdarsdk.ADDITIONAL_TAG";
 
     /**
      * Interval between the synchronization when the application is opened (30 minutes)
@@ -113,6 +116,10 @@ public class VidinotiAR implements VDARRemoteControllerListener {
 
     private List<VDARPrior> getSyncPriors() {
         List<VDARPrior> priors = new LinkedList<>();
+        String additionalContent = getAdditionalContent();
+        if (additionalContent != null) {
+            priors.add(new VDARContextPrior(additionalContent));
+        }
         switch (options.getSynchronizationMode()) {
             case DEFAULT_TAG:
                 priors.add(getTagPrior(options.getDefaultTag()));
@@ -163,21 +170,40 @@ public class VidinotiAR implements VDARRemoteControllerListener {
     }
 
     public String getAdditionalTag() {
-        return storage.getString(STORAGE_KEY_ADDITIONAL_CONTENT);
+        return storage.getString(STORAGE_KEY_ADDITIONAL_CONTENT_TAG);
     }
 
     public void removeAdditionalTag() {
-        storage.setString(STORAGE_KEY_ADDITIONAL_CONTENT, null);
+        storage.setString(STORAGE_KEY_ADDITIONAL_CONTENT_TAG, null);
+    }
+
+    public String getAdditionalContent() {
+        return storage.getString(STORAGE_KEY_ADDITIONAL_CONTENT_ID);
+    }
+
+    public void removeAdditionalContent() {
+        storage.setString(STORAGE_KEY_ADDITIONAL_CONTENT_ID, null);
     }
 
     protected void onTagQrCodeScanned(String tagName) {
         if (tagName == null) {
             return;
         }
-        storage.setString(STORAGE_KEY_ADDITIONAL_CONTENT, tagName);
+        storage.setString(STORAGE_KEY_ADDITIONAL_CONTENT_TAG, tagName);
         synchronize();
         for (VidinotiEventListener listener : eventListeners) {
             listener.onTagQrCodeScanned(tagName);
+        }
+    }
+
+    protected void onContentQrCodeScanned(String contextId) {
+        if (contextId == null) {
+            return;
+        }
+        storage.setString(STORAGE_KEY_ADDITIONAL_CONTENT_ID, contextId);
+        synchronize();
+        for (VidinotiEventListener listener : eventListeners) {
+            listener.onContentQrCodeScanned(contextId);
         }
     }
 
@@ -257,5 +283,9 @@ public class VidinotiAR implements VDARRemoteControllerListener {
      */
     public boolean isSyncInProgress() {
         return syncInProgress.get();
+    }
+
+    public VidinotiAROptions getOptions() {
+        return options;
     }
 }

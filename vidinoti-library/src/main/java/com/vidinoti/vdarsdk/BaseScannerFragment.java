@@ -27,6 +27,7 @@ public abstract class BaseScannerFragment extends Fragment implements VDARSDKCon
     private static final String TAG = BaseScannerFragment.class.getName();
 
     private static final String QR_CODE_TAG_PREFIX = "pixliveplayer/";
+    private static final String QR_CODE_CONTEXT_PREFIX = "context/";
 
     private ScannerFragmentListener listener;
     private VDARAnnotationView annotationView;
@@ -99,8 +100,11 @@ public abstract class BaseScannerFragment extends Fragment implements VDARSDKCon
             }
             if (code.startsWith(QR_CODE_TAG_PREFIX)) {
                 VidinotiAR.getInstance().onTagQrCodeScanned(code.substring(QR_CODE_TAG_PREFIX.length()));
-            } else if (code.startsWith("http://") || code.startsWith("https://")) {
+            } else if (VidinotiAR.getInstance().getOptions().isCodeRecognitionOpenURL() &&
+                    (code.startsWith("http://") || code.startsWith("https://"))) {
                 VidinotiUtils.openUrlInBrowser(getContext(), code);
+            } else if (code.startsWith(QR_CODE_CONTEXT_PREFIX)) {
+                VidinotiAR.getInstance().onContentQrCodeScanned(code.substring(QR_CODE_CONTEXT_PREFIX.length()));
             }
         }
     }

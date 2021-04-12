@@ -47,3 +47,57 @@ public class MyApplication extends Application {
 }
 
 ```
+
+Then add it to your `AndroidManifest.xml`
+
+```
+<application
+    android:name=".MyApplication"
+...
+```
+
+To handle the device orientation change, add
+
+```
+ android:configChanges="orientation|screenSize|keyboardHidden"
+```
+to your Activity in the `AndroidManifest.xml` file.
+
+It might also be a good idea to set the launchMode to "singleTask".
+
+### Locale
+
+It is a good practice to enable only the locale corresponding to your application.
+Edit the `app/build.gradle` and add the `resConfigs` attribute. For instance, like that:
+
+```
+android { 
+    ...
+    defaultConfig {
+        ...
+        resConfigs 'en', 'es'
+    }
+}
+```
+
+### Push notification support
+
+To support push notifications, create a new firebase project and configure the Android app: https://console.firebase.google.com/u/0/
+
+Configure the push in [V-Director](https://armanager.vidinoti.com) too.
+
+### Use the drawer layout template
+
+See the `app` folder for an example. In summary, the steps are:
+
+* Edit your main activity and make it extend the class `ScannerDrawerActivity`
+* Override the method `public int getNavigationMenuId()` and return the id for your drawer menu.
+* Override the method `public Map<Integer, DrawerEntry> getDrawerEntries()`. It allows configuring the default menu entry behaviors.
+* Use the theme `android:theme="@style/VidinotiAppTheme.NoActionBar"` for your Activity
+* Edit the following colors:
+    * `vidinotiColorPrimary`
+    * `vidinotiColorPrimaryDark`
+    * `vidinotiColorPrimaryLight`
+    * `vidinotiColorAccent`
+* You can set the string `vidinoti_nav_header_subtitle` for the drawer subtitle.
+

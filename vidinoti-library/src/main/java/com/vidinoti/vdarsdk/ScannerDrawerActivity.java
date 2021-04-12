@@ -14,9 +14,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.vidinoti.vdarsdk.template.DrawerEntry;
 
-@SuppressWarnings("unused")
-public class ScannerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScannerFragmentListener {
+import java.util.HashMap;
+import java.util.Map;
+
+public class ScannerDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScannerFragmentListener {
 
     private DrawerLayout drawerLayout;
 
@@ -67,6 +70,11 @@ public class ScannerActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        DrawerEntry entry = getDrawerEntries().get(menuItem.getItemId());
+        if (entry != null) {
+            entry.onClick(getDrawerLayout());
+            return true;
+        }
         return false;
     }
 
@@ -105,5 +113,9 @@ public class ScannerActivity extends AppCompatActivity implements NavigationView
                 overlayContainer.setVisibility(View.GONE);
             }
         });
+    }
+
+    public Map<Integer, DrawerEntry> getDrawerEntries() {
+        return new HashMap<>();
     }
 }

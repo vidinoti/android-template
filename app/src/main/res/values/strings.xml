@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Template</string>
-    <string name="menu_refresh">Refresh</string>
-    <string name="actions">Actions</string>
-
     <string name="vidinoti_nav_header_subtitle">Subtitle</string>
+
+    <string name="menu_refresh">Refresh</string>
     <string name="menu_website">Website</string>
+    <string name="menu_info">Info</string>
+
 </resources>

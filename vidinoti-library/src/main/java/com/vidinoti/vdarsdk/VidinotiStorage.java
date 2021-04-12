@@ -32,4 +32,17 @@ public class VidinotiStorage {
             prefs.edit().putString(key, value).apply();
         }
     }
+
+    /**
+     * Returns the stored integer corresponding to the given key. Returns 0 if the key does not exist.
+     * @param key the key
+     * @return the stored integer or 0.
+     */
+    public int getInt(String key) {
+        return prefs.getInt(key, 0);
+    }
+
+    public void setInt(String key, int value) {
+        prefs.edit().putInt(key, value).apply();
+    }
 }

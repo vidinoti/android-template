@@ -26,8 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WebActivity"
-            android:label="@string/menu_website"
+            android:name="com.vidinoti.vdarsdk.WebActivity"
             android:parentActivityName=".StartActivity" />
     </application>
 

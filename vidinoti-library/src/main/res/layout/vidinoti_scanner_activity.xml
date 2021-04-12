@@ -56,9 +56,19 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/vidinoti_nav_header_main"
+        app:headerLayout="@layout/vidinoti_nav_header_main">
 
-        />
-    <!-- app:menu="@menu/activity_main_drawer"  -->
+        <TextView
+            android:id="@+id/versionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="v1.0.0 (12)"
+            android:textSize="10sp"
+            android:layout_margin="4dp"
+            android:textColor="#bbb"
+            android:layout_gravity="bottom|end"
+            tools:ignore="SmallSp" />
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

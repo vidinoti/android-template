@@ -1,12 +1,15 @@
 package com.vidinoti.vdarsdk;
 
 
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +56,15 @@ public class ScannerDrawerActivity extends AppCompatActivity implements Navigati
         int menuId = getNavigationMenuId();
         if (menuId > 0) {
             navigationView.inflateMenu(menuId);
+        }
+
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = "v" + pInfo.versionName + " (" + pInfo.versionCode + ")";
+            TextView versionTextView = findViewById(R.id.versionTextView);
+            versionTextView.setText(version);
+        } catch (Exception e) {
+            Log.e("ScannerDrawerActivity", "Error retrieving app version", e);
         }
 
         VidinotiAR.getInstance().handleNotification(this);

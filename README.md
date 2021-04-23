@@ -4,7 +4,7 @@
 
 In your project's `build.gradle` file, add the following
 
-```
+```gradle
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
@@ -14,7 +14,7 @@ allprojects {
 
 And add the dependency in your app's `build.gradle` file:
 
-```
+```gradle
 implementation 'com.github.vidinoti:android-template:<latest-release>'
 ```
 
@@ -50,7 +50,7 @@ public class MyApplication extends Application {
 
 Then add it to your `AndroidManifest.xml`
 
-```
+``` xml
 <application
     android:name=".MyApplication"
 ...
@@ -58,9 +58,10 @@ Then add it to your `AndroidManifest.xml`
 
 To handle the device orientation change, add
 
-```
+``` xml
  android:configChanges="orientation|screenSize|keyboardHidden"
 ```
+
 to your Activity in the `AndroidManifest.xml` file.
 
 It might also be a good idea to set the launchMode to "singleTask".
@@ -70,7 +71,7 @@ It might also be a good idea to set the launchMode to "singleTask".
 It is a good practice to enable only the locale corresponding to your application.
 Edit the `app/build.gradle` and add the `resConfigs` attribute. For instance, like that:
 
-```
+```gradle
 android { 
     ...
     defaultConfig {
@@ -80,7 +81,7 @@ android {
 }
 ```
 
-### Push notification support
+### Push notification support
 
 To support push notifications, create a new firebase project and configure the Android app: https://console.firebase.google.com/u/0/
 
@@ -95,9 +96,16 @@ See the `app` folder for an example. In summary, the steps are:
 * Override the method `public Map<Integer, DrawerEntry> getDrawerEntries()`. It allows configuring the default menu entry behaviors.
 * Use the theme `android:theme="@style/VidinotiAppTheme.NoActionBar"` for your Activity
 * Edit the following colors:
-    * `vidinotiColorPrimary`
-    * `vidinotiColorPrimaryDark`
-    * `vidinotiColorPrimaryLight`
-    * `vidinotiColorAccent`
+  * `vidinotiColorPrimary`
+  * `vidinotiColorPrimaryDark`
+  * `vidinotiColorPrimaryLight`
+  * `vidinotiColorAccent`
 * You can set the string `vidinoti_nav_header_subtitle` for the drawer subtitle.
 
+## Development
+
+### Create a new release
+
+1. Update the version in `vidinoti-library/build.gradle`.
+2. Commit and push the changes.
+3. Create a new release in GitHub

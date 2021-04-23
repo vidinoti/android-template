@@ -1,6 +1,9 @@
 package com.vidinoti.vdarsdk;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +72,12 @@ public class WebFragment extends Fragment {
             webViewClient = delegate.getWebViewClient();
         }
         if (webViewClient == null) {
-            webViewClient = new WebViewClient();
+            webViewClient = new VidinotiWebViewClient(new VidinotiWebViewClientDelegate() {
+                @Override
+                public Activity getActivity() {
+                    return WebFragment.this.getActivity();
+                }
+            });
         }
         webView.setWebViewClient(webViewClient);
     }
@@ -78,5 +86,32 @@ public class WebFragment extends Fragment {
     public void onResume() {
         super.onResume();
         webView.loadUrl(url);
+    }
+
+    private interface VidinotiWebViewClientDelegate {
+        Activity getActivity();
+    }
+
+    private static class VidinotiWebViewClient extends WebViewClient {
+
+        private final VidinotiWebViewClientDelegate delegate;
+
+        VidinotiWebViewClient(VidinotiWebViewClientDelegate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.toLowerCase().startsWith("external")) {
+                String externalUrl = url.substring(8);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(externalUrl));
+                Activity activity = delegate.getActivity();
+                if (activity != null) {
+                    activity.startActivity(intent);
+                }
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(view, url);
+        }
     }
 }

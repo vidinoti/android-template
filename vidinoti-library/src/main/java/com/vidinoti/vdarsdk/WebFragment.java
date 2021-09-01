@@ -72,12 +72,7 @@ public class WebFragment extends Fragment {
             webViewClient = delegate.getWebViewClient();
         }
         if (webViewClient == null) {
-            webViewClient = new VidinotiWebViewClient(new VidinotiWebViewClientDelegate() {
-                @Override
-                public Activity getActivity() {
-                    return WebFragment.this.getActivity();
-                }
-            });
+            webViewClient = new VidinotiWebViewClient(WebFragment.this::getActivity);
         }
         webView.setWebViewClient(webViewClient);
     }

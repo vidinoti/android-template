@@ -91,19 +91,13 @@ public class VidinotiAR implements VDARRemoteControllerListener {
         if (syncInProgress.compareAndSet(false, true)) {
             lastSyncTimestamp = System.currentTimeMillis();
             final List<VDARPrior> priors = getSyncPriors();
-            controller.addNewAfterLoadingTask(new Runnable() {
-                public void run() {
-                    VDARRemoteController.getInstance().syncRemoteContextsAsynchronouslyWithPriors(priors, new Observer() {
-                        public void update(Observable observable, Object data) {
-                            VDARRemoteController.ObserverUpdateInfo info = (VDARRemoteController.ObserverUpdateInfo) data;
-                            if (info.isCompleted()) {
-                                syncInProgress.set(false);
-                                Log.v(TAG, "Synchronization over. Synced " + info.getFetchedContexts().size() + " contents");
-                            }
-                        }
-                    });
+            controller.addNewAfterLoadingTask(() -> VDARRemoteController.getInstance().syncRemoteContextsAsynchronouslyWithPriors(priors, (observable, data) -> {
+                VDARRemoteController.ObserverUpdateInfo info = (VDARRemoteController.ObserverUpdateInfo) data;
+                if (info.isCompleted()) {
+                    syncInProgress.set(false);
+                    Log.v(TAG, "Synchronization over. Synced " + info.getFetchedContexts().size() + " contents");
                 }
-            });
+            }));
         }
     }
 
@@ -229,12 +223,9 @@ public class VidinotiAR implements VDARRemoteControllerListener {
             final String nid = intent.getExtras().getString("nid");
 
             VDARSDKController.getInstance().addNewAfterLoadingTask(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            boolean remote = intent.getExtras().getBoolean("remote");
-                            VDARSDKController.getInstance().processNotification(nid, remote);
-                        }
+                    () -> {
+                        boolean remote = intent.getExtras().getBoolean("remote");
+                        VDARSDKController.getInstance().processNotification(nid, remote);
                     });
         }
     }

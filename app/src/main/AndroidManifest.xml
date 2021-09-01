@@ -17,6 +17,7 @@
         <activity
             android:name=".StartActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/VidinotiAppTheme.NoActionBar">
             <intent-filter>
@@ -28,6 +29,13 @@
         <activity
             android:name="com.vidinoti.vdarsdk.WebActivity"
             android:parentActivityName=".StartActivity" />
+
+        <!-- Temporary fix error for Android 12 target -->
+        <receiver android:name="com.vidinoti.vidibeacon.startup.StartupBroadcastReceiver"
+            android:exported="true"
+            tools:node="merge"
+            tools:ignore="ExportedReceiver">
+        </receiver>
     </application>
 
 </manifest>

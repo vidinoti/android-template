@@ -44,12 +44,7 @@ public class ScannerDrawerActivity extends AppCompatActivity implements Navigati
         }
 
         menuButton = findViewById(R.id.menuButton);
-        menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        menuButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -104,26 +99,20 @@ public class ScannerDrawerActivity extends AppCompatActivity implements Navigati
 
     @Override
     public void onAnnotationsHidden() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                menuButton.setVisibility(View.VISIBLE);
-                overlayContainer.setVisibility(View.VISIBLE);
-            }
+        runOnUiThread(() -> {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            menuButton.setVisibility(View.VISIBLE);
+            overlayContainer.setVisibility(View.VISIBLE);
         });
     }
 
     @Override
     public void onPresentAnnotations() {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                menuButton.setVisibility(View.GONE);
-                overlayContainer.setVisibility(View.GONE);
-            }
+        runOnUiThread(() -> {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            menuButton.setVisibility(View.GONE);
+            overlayContainer.setVisibility(View.GONE);
         });
     }
 

@@ -45,12 +45,7 @@ public class ScannerFragment extends BaseScannerFragment {
         super.onPresentAnnotations();
         Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    overlayView.setVisibility(View.GONE);
-                }
-            });
+            activity.runOnUiThread(() -> overlayView.setVisibility(View.GONE));
         }
     }
 
@@ -59,12 +54,7 @@ public class ScannerFragment extends BaseScannerFragment {
         super.onAnnotationsHidden();
         Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    overlayView.setVisibility(View.VISIBLE);
-                }
-            });
+            activity.runOnUiThread(() -> overlayView.setVisibility(View.VISIBLE));
         }
     }
 

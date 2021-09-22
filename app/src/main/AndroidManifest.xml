@@ -30,12 +30,6 @@
             android:name="com.vidinoti.vdarsdk.WebActivity"
             android:parentActivityName=".StartActivity" />
 
-        <!-- Temporary fix error for Android 12 target -->
-        <receiver android:name="com.vidinoti.vidibeacon.startup.StartupBroadcastReceiver"
-            android:exported="true"
-            tools:node="merge"
-            tools:ignore="ExportedReceiver">
-        </receiver>
     </application>
 
 </manifest>

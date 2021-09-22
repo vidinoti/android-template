@@ -6,8 +6,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 190
-        versionName "1.10.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,7 +21,7 @@ android {
 
 dependencies {
     // SDK
-    api 'com.github.vidinoti:android-sdk:7.3.1'
+    api 'com.github.vidinoti:android-sdk:7.3.2'
     // Push notification dependencies
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
 

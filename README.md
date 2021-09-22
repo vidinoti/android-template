@@ -1,5 +1,7 @@
 # Android Library for the Vidinoti SDK
 
+[![Release](https://jitpack.io/v/vidinoti/android-template.svg)](https://jitpack.io/#vidinoti/android-template)
+
 ## Installation
 
 In your project's `build.gradle` file, add the following

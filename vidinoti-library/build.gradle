@@ -34,3 +34,16 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.vidinoti'
+                artifactId = 'android-template'
+                version = '1.13.0'
+            }
+        }
+    }
+}

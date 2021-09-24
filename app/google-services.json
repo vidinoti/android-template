@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "719310222164",
+    "firebase_url": "https://sdkdemo-d6144.firebaseio.com",
+    "project_id": "sdkdemo-d6144",
+    "storage_bucket": "sdkdemo-d6144.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719310222164:android:557acfc2147a97e2c6cec1",
+        "android_client_info": {
+          "package_name": "com.vidinoti.template"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719310222164-khq4jsag2q9o2iu88sndpgtf3kntucc0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHWiHKJIksliSxagF7H09XGLWmhB-NQzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719310222164-khq4jsag2q9o2iu88sndpgtf3kntucc0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

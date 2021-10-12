@@ -108,5 +108,14 @@ See the `app` folder for an example. In summary, the steps are:
 
 ### Create a new release
 
-1. Commit and push the changes.
-2. Create a new release in GitHub
+1. Update the version number in `vidinoti-library/build.gradle`.
+2. Commit and push the changes.
+3. Create a new release in GitHub. (see below for doing it with the CLI)
+
+### Create a GitHub release with GitHub CLI
+
+``` sh
+gh release create <tag> --notes "<release notes>"
+# For instance
+gh release create 1.13.0 --notes "Vidinoti SDK 7.3.3"
+```

@@ -13,7 +13,13 @@ import com.vidinoti.vdarsdk.view.VidinotiProgressView;
 
 public class ScannerFragment extends BaseScannerFragment {
 
+    private View viewfinderView;
+
+    /**
+     * View placed above the camera view. It can be used for adding a watermark.
+     */
     private View overlayView;
+    
     private VidinotiProgressView progressView;
 
     public ScannerFragment() {
@@ -25,6 +31,7 @@ public class ScannerFragment extends BaseScannerFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.vidinoti_scanner_fragment, container, false);
         progressView = view.findViewById(R.id.progressView);
+        viewfinderView = view.findViewById(R.id.viewfinderView);
         overlayView = view.findViewById(R.id.overlayView);
         return view;
     }
@@ -37,6 +44,7 @@ public class ScannerFragment extends BaseScannerFragment {
     @Override
     public void onPause() {
         super.onPause();
+        viewfinderView.setVisibility(View.VISIBLE);
         overlayView.setVisibility(View.VISIBLE);
     }
 
@@ -45,7 +53,10 @@ public class ScannerFragment extends BaseScannerFragment {
         super.onPresentAnnotations();
         Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(() -> overlayView.setVisibility(View.GONE));
+            activity.runOnUiThread(() -> {
+                viewfinderView.setVisibility(View.GONE);
+                overlayView.setVisibility(View.GONE);
+            });
         }
     }
 
@@ -54,17 +65,22 @@ public class ScannerFragment extends BaseScannerFragment {
         super.onAnnotationsHidden();
         Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(() -> overlayView.setVisibility(View.VISIBLE));
+            activity.runOnUiThread(() -> {
+                viewfinderView.setVisibility(View.VISIBLE);
+                overlayView.setVisibility(View.VISIBLE);
+            });
         }
     }
 
     @Override
     public void onSyncProgress(int progress) {
         super.onSyncProgress(progress);
-        progressView.setProgress((int) progress);
+        progressView.setProgress(progress);
         if (progress < 100) {
+            viewfinderView.setVisibility(View.GONE);
             overlayView.setVisibility(View.GONE);
         } else {
+            viewfinderView.setVisibility(View.VISIBLE);
             overlayView.setVisibility(View.VISIBLE);
         }
     }

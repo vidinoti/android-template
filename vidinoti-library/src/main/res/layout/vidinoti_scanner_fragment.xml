@@ -17,8 +17,12 @@
         android:layout_gravity="center" />
 
     <com.vidinoti.vdarsdk.view.VidinotiViewfinderView
-        android:id="@+id/overlayView"
+        android:id="@+id/viewfinderView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <include
+        android:id="@+id/overlayView"
+        layout="@layout/vidinoti_scanner_overlay_view"/>
 
 </FrameLayout>

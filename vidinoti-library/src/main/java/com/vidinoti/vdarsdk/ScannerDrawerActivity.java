@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -22,7 +21,7 @@ import com.vidinoti.vdarsdk.template.DrawerEntry;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScannerDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScannerFragmentListener {
+public class ScannerDrawerActivity extends VidinotiBaseActivity implements NavigationView.OnNavigationItemSelectedListener, ScannerFragmentListener {
 
     private DrawerLayout drawerLayout;
 
@@ -61,14 +60,6 @@ public class ScannerDrawerActivity extends AppCompatActivity implements Navigati
         } catch (Exception e) {
             Log.e("ScannerDrawerActivity", "Error retrieving app version", e);
         }
-
-        VidinotiAR.getInstance().handleNotification(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        VidinotiAR.getInstance().synchronizeIfNeeded();
     }
 
     public DrawerLayout getDrawerLayout() {
@@ -93,6 +84,7 @@ public class ScannerDrawerActivity extends AppCompatActivity implements Navigati
         return 0;
     }
 
+    @SuppressWarnings("unused")
     public NavigationView getNavigationView() {
         return navigationView;
     }

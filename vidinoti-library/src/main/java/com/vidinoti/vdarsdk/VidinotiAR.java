@@ -23,11 +23,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("unused")
 public class VidinotiAR implements VDARRemoteControllerListener {
 
     public interface VidinotiEventListener {
@@ -214,9 +213,21 @@ public class VidinotiAR implements VDARRemoteControllerListener {
      * received.
      *
      * @param activity your main Activity
+     * @deprecated Use {@link #handleNotification(Intent)}
      */
+    @Deprecated
     public void handleNotification(Activity activity) {
-        final Intent intent = activity.getIntent();
+        handleNotification(activity.getIntent());
+    }
+
+    /**
+     * Call this method in your main Activity {@link Activity#onCreate(Bundle)} (passing getIntent()
+     * as parameter) and in {@link Activity#onNewIntent(Intent)} (passing the Intent) for processing
+     * the received push notification.
+     *
+     * @param intent the intent used for launching the Activity
+     */
+    public void handleNotification(Intent intent) {
         if (intent != null && intent.getExtras() != null
                 && intent.getExtras().getString("nid") != null) {
 

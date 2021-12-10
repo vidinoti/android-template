@@ -20,6 +20,11 @@ And add the dependency in your app's `build.gradle` file:
 implementation 'com.github.vidinoti:android-template:<latest-release>'
 ```
 
+## New project
+
+* Create a new Android application
+* Create a main Activity which extends `VidinotiBaseActivity`
+
 ## Usage
 
 ``` java
@@ -45,6 +50,7 @@ public class MyApplication extends Application {
                 .setNotificationSupport(true)
                 .build();
         VidinotiAR.init(this, options);
+        // You can call .synchronize() here if wanted.
     }
 }
 
@@ -61,12 +67,16 @@ Then add it to your `AndroidManifest.xml`
 To handle the device orientation change, add
 
 ``` xml
- android:configChanges="orientation|screenSize|keyboardHidden"
+android:configChanges="orientation|screenSize|keyboardHidden"
 ```
 
 to your Activity in the `AndroidManifest.xml` file.
 
 It might also be a good idea to set the launchMode to "singleTask".
+
+``` xml
+android:launchMode="singleTask"
+```
 
 ### Locale
 

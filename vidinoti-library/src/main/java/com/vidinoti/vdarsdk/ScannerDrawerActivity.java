@@ -52,14 +52,8 @@ public class ScannerDrawerActivity extends VidinotiBaseActivity implements Navig
             navigationView.inflateMenu(menuId);
         }
 
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = "v" + pInfo.versionName + " (" + pInfo.versionCode + ")";
-            TextView versionTextView = findViewById(R.id.versionTextView);
-            versionTextView.setText(version);
-        } catch (Exception e) {
-            Log.e("ScannerDrawerActivity", "Error retrieving app version", e);
-        }
+        ((TextView) findViewById(R.id.versionTextView))
+                .setText(VidinotiUtils.getAppVersionString(this));
     }
 
     public DrawerLayout getDrawerLayout() {

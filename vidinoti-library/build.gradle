@@ -42,7 +42,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.vidinoti'
                 artifactId = 'android-template'
-                version = '1.17.0'
+                version = '1.18.0'
             }
         }
     }

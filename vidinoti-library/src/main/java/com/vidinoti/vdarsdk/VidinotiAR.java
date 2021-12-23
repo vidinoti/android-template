@@ -94,6 +94,13 @@ public class VidinotiAR implements VDARRemoteControllerListener {
                 VDARRemoteController.ObserverUpdateInfo info = (VDARRemoteController.ObserverUpdateInfo) data;
                 if (info.isCompleted()) {
                     syncInProgress.set(false);
+                    String error = info.getError();
+                    if (error != null && !error.isEmpty()) {
+                        Log.w(TAG, "Synchronization error: " + error);
+                        for (VidinotiSynchronizationProgressListener listener: syncProgressListeners) {
+                            listener.onSyncError(error);
+                        }
+                    }
                     Log.v(TAG, "Synchronization over. Synced " + info.getFetchedContexts().size() + " contents");
                 }
             }));

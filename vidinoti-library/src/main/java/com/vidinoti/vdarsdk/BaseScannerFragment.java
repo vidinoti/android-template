@@ -152,4 +152,9 @@ public abstract class BaseScannerFragment extends Fragment implements VDARSDKCon
     public void onSyncProgress(int progress) {
 
     }
+
+    @Override
+    public void onSyncError(String error) {
+
+    }
 }

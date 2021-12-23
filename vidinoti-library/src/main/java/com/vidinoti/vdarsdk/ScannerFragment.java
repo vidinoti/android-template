@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.vidinoti.vdarsdk.view.VidinotiProgressView;
 
 
@@ -83,5 +84,10 @@ public class ScannerFragment extends BaseScannerFragment {
             viewfinderView.setVisibility(View.VISIBLE);
             overlayView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onSyncError(String error) {
+        Snackbar.make(getAnnotationView(), error, Snackbar.LENGTH_LONG).show();
     }
 }

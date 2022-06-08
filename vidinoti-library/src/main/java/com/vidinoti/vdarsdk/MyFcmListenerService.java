@@ -57,7 +57,8 @@ public class MyFcmListenerService extends FirebaseMessagingService {
         appIntent.putExtra("nid", nid);
         appIntent.putExtra("remote", true);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, appIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        int id = (int) ((System.currentTimeMillis() - 1419120000000L) / 1000L);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, id, appIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         createNotificationChannel(notificationManager);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)

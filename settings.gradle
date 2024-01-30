@@ -1,3 +1,4 @@
 include ':vidinoti-library'
 include ':app'
 rootProject.name='VidinotiAndroidTemplate'
+include ':tabapp'

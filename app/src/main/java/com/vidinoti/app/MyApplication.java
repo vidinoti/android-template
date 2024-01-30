@@ -19,7 +19,6 @@ public class MyApplication extends Application {
                 .setMultilingualEnabled(true)
                 .setDefaultLanguage(VidinotiLanguage.EN)
                 .setSupportedLanguages(VidinotiLanguage.EN, VidinotiLanguage.FR)
-                .setNotificationSupport(true)
                 .build();
         VidinotiAR.init(this, options).synchronize();
     }

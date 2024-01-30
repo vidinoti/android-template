@@ -47,7 +47,6 @@ public class MyApplication extends Application {
                 .setDefaultLanguage(VidinotiLanguage.EN)
                 .setSupportedLanguages(VidinotiLanguage.EN, VidinotiLanguage.ES)
                 .setDefaultTag("Default")
-                .setNotificationSupport(true)
                 .build();
         VidinotiAR.init(this, options);
         // You can call .synchronize() here if wanted.
@@ -92,12 +91,6 @@ android {
     }
 }
 ```
-
-### Push notification support
-
-To support push notifications, create a new firebase project and configure the Android app: https://console.firebase.google.com/u/0/
-
-Configure the push in [V-Director](https://armanager.vidinoti.com) too.
 
 ### Use the drawer layout template
 

@@ -10,13 +10,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
             android:theme="@style/VidinotiAppTheme.NoActionBar" />
-        <service
-            android:name="com.vidinoti.vdarsdk.MyFcmListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
         <activity android:name=".WebActivity" />
     </application>
 

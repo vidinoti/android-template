@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">App</string>
-    <string name="vidinoti_notification_channel_description">Notification about latest news</string>
     <string name="vidinoti_nav_header_title">@string/app_name</string>
     <string name="vidinoti_nav_header_subtitle"/>
     <string name="vidinoti_nav_header_desc">Navigation header</string>

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -24,9 +24,7 @@ android {
 
 dependencies {
     // SDK
-    api 'com.github.vidinoti:android-sdk:7.3.5'
-    // Push notification dependencies
-    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    api 'com.github.vidinoti:android-sdk:7.5.1'
 
     // Other dependencies
     implementation 'androidx.appcompat:appcompat:1.4.0'

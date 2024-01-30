@@ -26,7 +26,6 @@ public class VidinotiAROptions {
     private VidinotiLanguage defaultLanguage;
     private Set<VidinotiLanguage> supportedLanguages;
     private String defaultTag;
-    private boolean notificationSupportEnabled = false;
     private SynchronizationMode synchronizationMode;
 
     @SuppressWarnings("unused")
@@ -40,7 +39,6 @@ public class VidinotiAROptions {
         private VidinotiLanguage defaultLanguage = VidinotiLanguage.EN;
         private Set<VidinotiLanguage> supportedLanguages = Collections.emptySet();
         private String defaultTag = null;
-        private boolean notificationSupportEnabled = false;
 
         public Builder(String licenseKey) {
             this.licenseKey = licenseKey;
@@ -83,11 +81,6 @@ public class VidinotiAROptions {
             return this;
         }
 
-        public Builder setNotificationSupport(boolean enabled) {
-            this.notificationSupportEnabled = enabled;
-            return this;
-        }
-
         public VidinotiAROptions build() {
             VidinotiAROptions options = new VidinotiAROptions();
             options.licenseKey = this.licenseKey;
@@ -98,7 +91,6 @@ public class VidinotiAROptions {
             options.multilingualEnabled = this.multilingualEnabled;
             options.supportedLanguages = this.supportedLanguages;
             options.synchronizationMode = this.synchronizationMode;
-            options.notificationSupportEnabled = this.notificationSupportEnabled;
             return options;
         }
     }
@@ -135,7 +127,4 @@ public class VidinotiAROptions {
         return defaultLanguage;
     }
 
-    public boolean isNotificationSupportEnabled() {
-        return notificationSupportEnabled;
-    }
 }

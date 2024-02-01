@@ -20,7 +20,7 @@ public class WebFragment extends Fragment {
     private static final String ARG_KEY_URL = "com.vidinoti.vdarsdk.URL";
 
     private WebView webView;
-    private String url;
+    protected String url;
     private WebFragmentDelegate delegate;
 
     public interface WebFragmentDelegate {
@@ -72,6 +72,9 @@ public class WebFragment extends Fragment {
             webViewClient = delegate.getWebViewClient();
         }
         if (webViewClient == null) {
+            webViewClient = getWebViewClient();
+        }
+        if (webViewClient == null) {
             webViewClient = new VidinotiWebViewClient(WebFragment.this::getActivity);
         }
         webView.setWebViewClient(webViewClient);
@@ -81,6 +84,14 @@ public class WebFragment extends Fragment {
     public void onResume() {
         super.onResume();
         webView.loadUrl(url);
+    }
+
+    public WebView getWebView() {
+        return webView;
+    }
+
+    protected WebViewClient getWebViewClient() {
+        return null;
     }
 
     private interface VidinotiWebViewClientDelegate {

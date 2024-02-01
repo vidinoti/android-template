@@ -67,6 +67,7 @@ public class VidinotiAR implements VDARRemoteControllerListener {
         return instance;
     }
 
+    private final Context context;
     private final VidinotiAROptions options;
     private final VDARSDKController controller;
     private final AtomicBoolean syncInProgress = new AtomicBoolean();
@@ -77,6 +78,7 @@ public class VidinotiAR implements VDARRemoteControllerListener {
     private int syncProgress = 0;
 
     private VidinotiAR(Context context, VDARSDKController controller, VidinotiAROptions options) {
+        this.context = context;
         this.options = options;
         this.controller = controller;
         this.storage = new VidinotiStorage(context);
@@ -260,5 +262,9 @@ public class VidinotiAR implements VDARRemoteControllerListener {
 
     public VidinotiAROptions getOptions() {
         return options;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.LinkedList;
 
 public abstract class MapBoxFragment extends WebFragment implements MapBoxListener {
@@ -38,9 +40,14 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
                 "VidinotiMapBoxInterface");
     }
 
+    @Override
+    public void beforeLoadUrl() {
+        startLoading();
+    }
+
     // TODO geolocation
 
-    private void setUserLocation(double latitude, double longitude) {
+    public void setUserLocation(double latitude, double longitude) {
         evaluateJavascript("window.VidinotiMap.setUserPosition(" + latitude + "," + longitude + ")");
     }
 
@@ -58,11 +65,12 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
 
     @Override
     public void mapError() {
-        // To be overridden
+        runOnUiThread(this::stopLoading);
     }
 
     @Override
     public void mapLoaded() {
+        runOnUiThread(this::stopLoading);
         mapLoaded = true;
         String js = afterMapLoadScripts.poll();
         while (js != null) {
@@ -83,11 +91,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
 
     private void evaluateJavascript(String js) {
         if (mapLoaded) {
-            Activity activity = getActivity();
-            if (activity == null) {
-                return;
-            }
-            activity.runOnUiThread(() -> getWebView().evaluateJavascript(js, null));
+            runOnUiThread(() -> getWebView().evaluateJavascript(js, null));
         } else {
             afterMapLoadScripts.add(js);
         }

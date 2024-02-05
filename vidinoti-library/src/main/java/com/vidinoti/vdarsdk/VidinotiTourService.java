@@ -35,7 +35,11 @@ public class VidinotiTourService {
 
     public void getTour(long id, ResponseCallback<VidinotiTour> successCallback, ResponseCallback<Exception> errorCallback) {
         String url = TOUR_API_ENDPOINT + "/" + id;
-        Request<VidinotiTour> request = new GsonRequest<>(url, VidinotiTour.class, headers, successCallback::onResponse, errorCallback::onResponse);
+        Request<VidinotiTour> request = new GsonRequest<>(url, VidinotiTour.class, headers, successCallback::onResponse, (error -> {
+            if (errorCallback != null) {
+                errorCallback.onResponse(error);
+            }
+        }));
         queue.add(request);
     }
 

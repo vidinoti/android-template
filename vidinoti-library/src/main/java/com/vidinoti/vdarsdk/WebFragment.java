@@ -20,8 +20,10 @@ public class WebFragment extends Fragment {
     private static final String ARG_KEY_URL = "com.vidinoti.vdarsdk.URL";
 
     private WebView webView;
+    private View loadingView;
     protected String url;
     private WebFragmentDelegate delegate;
+    private boolean loadUrlExecuted = false;
 
     public interface WebFragmentDelegate {
         @Nullable
@@ -63,6 +65,7 @@ public class WebFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         webView = view.findViewById(R.id.webView);
+        loadingView = view.findViewById(R.id.progressView);
         setupWebViewClient();
     }
 
@@ -83,7 +86,16 @@ public class WebFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        webView.loadUrl(url);
+        if (!loadUrlExecuted) {
+            loadUrlExecuted = true;
+            beforeLoadUrl();
+            webView.loadUrl(url);
+        }
+
+    }
+
+    public void beforeLoadUrl() {
+
     }
 
     public WebView getWebView() {
@@ -92,6 +104,22 @@ public class WebFragment extends Fragment {
 
     protected WebViewClient getWebViewClient() {
         return null;
+    }
+
+    public void startLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    public void stopLoading() {
+        loadingView.setVisibility(View.GONE);
+    }
+
+    public void runOnUiThread(Runnable runnable) {
+        Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        activity.runOnUiThread(runnable);
     }
 
     private interface VidinotiWebViewClientDelegate {

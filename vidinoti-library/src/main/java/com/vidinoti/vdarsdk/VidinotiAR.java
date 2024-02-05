@@ -154,7 +154,11 @@ public class VidinotiAR implements VDARRemoteControllerListener {
         }
     }
 
-    private VDARTagPrior getLanguageTag() {
+    /**
+     * Returns the current language used for the SDK
+     * @return the current language used for the SDK
+     */
+    public VidinotiLanguage getLanguage() {
         String code = Locale.getDefault().getLanguage();
         VidinotiLanguage deviceLanguage;
         try {
@@ -163,9 +167,13 @@ public class VidinotiAR implements VDARRemoteControllerListener {
             deviceLanguage = null;
         }
         if (deviceLanguage != null && options.getSupportedLanguages().contains(deviceLanguage)) {
-            return new VDARTagPrior(deviceLanguage.getTagName());
+            return deviceLanguage;
         }
-        return new VDARTagPrior(options.getDefaultLanguage().getTagName());
+        return options.getDefaultLanguage();
+    }
+
+    private VDARTagPrior getLanguageTag() {
+        return new VDARTagPrior(getLanguage().getTagName());
     }
 
     public String getAdditionalTag() {

@@ -3,6 +3,10 @@ package com.vidinoti.vdarsdk;
 import android.content.Context;
 import android.webkit.JavascriptInterface;
 
+import com.google.gson.Gson;
+
+import java.util.Map;
+
 public class MapBoxWebInterface {
 
     private final Context context;
@@ -65,4 +69,12 @@ public class MapBoxWebInterface {
         this.listener.mapError();
     }
 
+    @JavascriptInterface
+    public String getTexts() {
+        Map<String, String> texts = config.getTexts();
+        if (texts == null) {
+            return "{}";
+        }
+        return new Gson().toJson(texts);
+    }
 }

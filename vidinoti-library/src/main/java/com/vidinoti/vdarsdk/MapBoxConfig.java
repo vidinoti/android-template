@@ -1,11 +1,14 @@
 package com.vidinoti.vdarsdk;
 
+import java.util.Map;
+
 public class MapBoxConfig {
 
     private final String accessToken;
     private double centerLatitude = 47;
     private double centerLongitude = 7.5;
     private int zoom = 9;
+    private Map<String, String> texts;
 
     public MapBoxConfig(String accessToken) {
         this.accessToken = accessToken;
@@ -36,5 +39,13 @@ public class MapBoxConfig {
 
     public int getZoom() {
         return zoom;
+    }
+
+    public void setTexts(Map<String, String> texts) {
+        this.texts = texts;
+    }
+
+    public Map<String, String> getTexts() {
+        return texts;
     }
 }

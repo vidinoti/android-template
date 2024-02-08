@@ -21,7 +21,7 @@ public class WebFragment extends Fragment {
 
     private WebView webView;
     private View loadingView;
-    protected String url;
+    public String url;
     private WebFragmentDelegate delegate;
     private boolean loadUrlExecuted = false;
 
@@ -50,7 +50,7 @@ public class WebFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null) {
+        if (args != null && args.containsKey(ARG_KEY_URL)) {
             url = args.getString(ARG_KEY_URL);
         }
     }

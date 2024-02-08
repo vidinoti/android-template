@@ -30,10 +30,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.LinkedList;
 
-public abstract class MapBoxFragment extends WebFragment implements MapBoxListener {
+public abstract class MapBoxFragment extends WebFragment implements MapBoxListener, VidinotiSynchronizationProgressListener {
 
     private boolean mapLoaded = false;
     private final LinkedList<String> afterMapLoadScripts = new LinkedList<>();
@@ -101,6 +102,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
     @Override
     public void onResume() {
         super.onResume();
+        VidinotiAR.getInstance().addProgressListener(this);
         if (hasLocationPermission()) {
             startGeotracking();
         }
@@ -110,6 +112,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
     public void onPause() {
         super.onPause();
         stopGeotracking();
+        VidinotiAR.getInstance().removeProgressListener(this);
     }
 
     private boolean hasLocationPermission() {
@@ -243,4 +246,17 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
     }
 
     public abstract MapBoxConfig getConfiguration();
+
+    @Override
+    public void onSyncProgress(int progress) {
+
+    }
+
+    @Override
+    public void onSyncError(String error) {
+        View v = getView();
+        if (v != null) {
+            Snackbar.make(v, error, Snackbar.LENGTH_LONG).show();
+        }
+    }
 }

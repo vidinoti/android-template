@@ -39,6 +39,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
     private final LinkedList<String> afterMapLoadScripts = new LinkedList<>();
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    private Location userLocation;
 
     public MapBoxFragment() {
         this.url = "https://appassets.androidplatform.net/assets/vidinoti-mapbox/index.html";
@@ -65,6 +66,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 Location location = locationResult.getLastLocation();
                 if (location != null) {
+                    userLocation = location;
                     setUserLocation(location.getLatitude(), location.getLongitude());
                 }
             }
@@ -130,6 +132,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
         fusedLocationClient.getCurrentLocation(request, null)
                 .addOnSuccessListener(location -> {
                     if (location != null) {
+                        userLocation = location;
                         setUserLocation(location.getLatitude(), location.getLongitude());
                     }
                 });
@@ -154,6 +157,10 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
     @Override
     public void beforeLoadUrl() {
         startLoading();
+    }
+
+    public Location getUserLocation() {
+        return userLocation;
     }
 
     public void setUserLocation(double latitude, double longitude) {

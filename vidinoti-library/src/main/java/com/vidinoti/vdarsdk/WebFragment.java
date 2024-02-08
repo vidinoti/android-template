@@ -91,7 +91,12 @@ public class WebFragment extends Fragment {
             beforeLoadUrl();
             webView.loadUrl(url);
         }
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        loadUrlExecuted = false;
     }
 
     public void beforeLoadUrl() {

@@ -1,22 +1,35 @@
 package com.vidinoti.vdarsdk;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.location.CurrentLocationRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.Granularity;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
 import java.util.LinkedList;
 
@@ -24,9 +37,17 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
 
     private boolean mapLoaded = false;
     private final LinkedList<String> afterMapLoadScripts = new LinkedList<>();
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
 
     public MapBoxFragment() {
         this.url = "https://appassets.androidplatform.net/assets/vidinoti-mapbox/index.html";
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -38,14 +59,102 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
         getWebView().addJavascriptInterface(new MapBoxWebInterface(view.getContext(),
                         getConfiguration(), this),
                 "VidinotiMapBoxInterface");
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                Location location = locationResult.getLastLocation();
+                if (location != null) {
+                    setUserLocation(location.getLatitude(), location.getLongitude());
+                }
+            }
+        };
+
+        askGeolocationPermissionIfNeeded();
+    }
+
+    private void askGeolocationPermissionIfNeeded() {
+        if (!hasLocationPermission()) {
+            ActivityResultLauncher<String[]> locationPermissionRequest =
+                    registerForActivityResult(new ActivityResultContracts
+                                    .RequestMultiplePermissions(), result -> {
+                                Boolean fineLocationGranted = result.getOrDefault(
+                                        Manifest.permission.ACCESS_FINE_LOCATION, false);
+                                Boolean coarseLocationGranted = result.getOrDefault(
+                                        Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                                if (fineLocationGranted != null && fineLocationGranted) {
+                                    startGeotracking();
+                                } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                                    startGeotracking();
+                                }
+                            }
+                    );
+            locationPermissionRequest.launch(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (hasLocationPermission()) {
+            startGeotracking();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopGeotracking();
+    }
+
+    private boolean hasLocationPermission() {
+        Context context = getContext();
+        if (context != null) {
+            return ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLastPosition() {
+        CurrentLocationRequest request = new CurrentLocationRequest.Builder()
+                .setDurationMillis(3000)
+                .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+                .setPriority(Priority.PRIORITY_BALANCED_POWER_ACCURACY)
+                .build();
+        fusedLocationClient.getCurrentLocation(request, null)
+                .addOnSuccessListener(location -> {
+                    if (location != null) {
+                        setUserLocation(location.getLatitude(), location.getLongitude());
+                    }
+                });
+    }
+
+    @SuppressLint("MissingPermission")
+    private void startGeotracking() {
+        getLastPosition();
+        LocationRequest locationRequest = new LocationRequest.Builder(3000)
+                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                .setMinUpdateIntervalMillis(1000)
+                .build();
+        fusedLocationClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                Looper.getMainLooper());
+    }
+
+    private void stopGeotracking() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
     @Override
     public void beforeLoadUrl() {
         startLoading();
     }
-
-    // TODO geolocation
 
     public void setUserLocation(double latitude, double longitude) {
         evaluateJavascript("window.VidinotiMap.setUserPosition(" + latitude + "," + longitude + ")");
@@ -56,7 +165,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
     }
 
     public void flyTo(double latitude, double longitude) {
-        evaluateJavascript("window.VidinotiMap.flyTo(" + latitude + "," + longitude +")");
+        evaluateJavascript("window.VidinotiMap.flyTo(" + latitude + "," + longitude + ")");
     }
 
     public void zoomFitMarkers() {

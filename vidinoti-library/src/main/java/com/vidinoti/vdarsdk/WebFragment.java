@@ -94,8 +94,7 @@ public class WebFragment extends Fragment implements VidinotiLoadingManager.Load
         super.onResume();
         if (!loadUrlExecuted) {
             loadUrlExecuted = true;
-            beforeLoadUrl();
-            webView.loadUrl(url);
+            reload();
         }
     }
 
@@ -107,6 +106,11 @@ public class WebFragment extends Fragment implements VidinotiLoadingManager.Load
 
     public void beforeLoadUrl() {
 
+    }
+
+    public void reload() {
+        beforeLoadUrl();
+        webView.loadUrl(url);
     }
 
     public WebView getWebView() {

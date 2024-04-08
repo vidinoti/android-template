@@ -15,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class WebFragment extends Fragment {
+public class WebFragment extends Fragment implements VidinotiLoadingManager.LoadingInterface {
 
     private static final String ARG_KEY_URL = "com.vidinoti.vdarsdk.URL";
+
+    private final VidinotiLoadingManager loadingManager;
 
     private WebView webView;
     private View loadingView;
@@ -36,6 +38,10 @@ public class WebFragment extends Fragment {
         bundle.putString(ARG_KEY_URL, url);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public WebFragment() {
+        this.loadingManager = new VidinotiLoadingManager(this);
     }
 
     @Override
@@ -112,11 +118,19 @@ public class WebFragment extends Fragment {
     }
 
     public void startLoading() {
-        loadingView.setVisibility(View.VISIBLE);
+        loadingManager.startLoading();
     }
 
     public void stopLoading() {
-        loadingView.setVisibility(View.GONE);
+        loadingManager.stopLoading();
+    }
+
+    /**
+     * Sets the loading percentage
+     * @param percent the percentage (between 0 and 1.0)
+     */
+    public void setLoadingProgress(double percent) {
+        loadingManager.setProgress(percent);
     }
 
     public void runOnUiThread(Runnable runnable) {
@@ -125,6 +139,15 @@ public class WebFragment extends Fragment {
             return;
         }
         activity.runOnUiThread(runnable);
+    }
+
+    @Override
+    public void setLoadingViewVisible(boolean visible) {
+        if (visible) {
+            loadingView.setVisibility(View.VISIBLE);
+        } else {
+            loadingView.setVisibility(View.GONE);
+        }
     }
 
     private interface VidinotiWebViewClientDelegate {

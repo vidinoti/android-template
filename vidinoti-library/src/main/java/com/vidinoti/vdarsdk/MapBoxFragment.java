@@ -249,7 +249,7 @@ public abstract class MapBoxFragment extends WebFragment implements MapBoxListen
 
     @Override
     public void onSyncProgress(int progress) {
-
+        setLoadingProgress(progress / 100.0);
     }
 
     @Override

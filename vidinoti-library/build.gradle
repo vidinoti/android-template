@@ -21,6 +21,12 @@ android {
         }
     }
     namespace 'com.vidinoti.vdarsdk'
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -37,14 +43,15 @@ dependencies {
 
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.findByName('release')
-                groupId = 'com.github.vidinoti'
-                artifactId = 'android-template'
-                version = '1.22.1'
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.vidinoti'
+            artifactId = 'android-template'
+            version = '1.22.1'
+
+            afterEvaluate {
+                from components.release
             }
         }
     }

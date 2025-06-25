@@ -25,7 +25,7 @@ android {
 
 dependencies {
     // SDK
-    api 'com.github.vidinoti:android-sdk:7.6.0'
+    api 'com.github.vidinoti:android-sdk:e05e540e4d'
 
     // Other dependencies
     implementation 'androidx.appcompat:appcompat:1.6.1'

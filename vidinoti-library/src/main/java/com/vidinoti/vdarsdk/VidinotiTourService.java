@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class VidinotiTourService {
 
-    private static final String TOUR_API_ENDPOINT = "https://sdk.vidinoti.com/v1/tour";
+    private static final String TOUR_API_SUFFIX = "/v1/tour/";
     private static VidinotiTourService instance = null;
 
     private final RequestQueue queue;
@@ -34,7 +34,7 @@ public class VidinotiTourService {
     }
 
     public void getTour(long id, ResponseCallback<VidinotiTour> successCallback, ResponseCallback<Exception> errorCallback) {
-        String url = TOUR_API_ENDPOINT + "/" + id;
+        String url = VidinotiAR.getInstance().getSdkServer() + TOUR_API_SUFFIX + id;
         Request<VidinotiTour> request = new GsonRequest<>(url, VidinotiTour.class, headers, successCallback::onResponse, (error -> {
             if (errorCallback != null) {
                 errorCallback.onResponse(error);

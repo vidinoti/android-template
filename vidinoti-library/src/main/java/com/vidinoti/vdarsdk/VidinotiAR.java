@@ -55,6 +55,12 @@ public class VidinotiAR implements VDARRemoteControllerListener {
         String storageDir = vidinotiSdkFolder.getAbsolutePath();
         VDARSDKController controller = VDARSDKController.startSDK(context.getApplicationContext(), storageDir, options.getLicenseKey());
         controller.setEnableCodesRecognition(options.isCodeRecognitionEnabled());
+        if (options.getCustomApiServer() != null) {
+            VDARRemoteController.getInstance().setCustomRemoteApiServerEndpoint(options.getCustomApiServer());
+        }
+        if (options.getCustomSdkServer() != null) {
+            VDARRemoteController.getInstance().setCustomRemoteSdkApiServerEndpoint(options.getCustomSdkServer());
+        }
         instance = new VidinotiAR(context.getApplicationContext(), controller, options);
         return instance;
     }
@@ -274,5 +280,12 @@ public class VidinotiAR implements VDARRemoteControllerListener {
 
     public Context getContext() {
         return context;
+    }
+
+    public String getSdkServer() {
+        if (options.getCustomSdkServer() != null) {
+            return options.getCustomSdkServer();
+        }
+        return "https://sdk.vidinoti.com";
     }
 }

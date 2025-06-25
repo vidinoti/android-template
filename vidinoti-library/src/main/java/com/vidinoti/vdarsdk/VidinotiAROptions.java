@@ -27,6 +27,8 @@ public class VidinotiAROptions {
     private Set<VidinotiLanguage> supportedLanguages;
     private String defaultTag;
     private SynchronizationMode synchronizationMode;
+    private String customApiServer;
+    private String customSdkServer;
 
     @SuppressWarnings("unused")
     public static class Builder {
@@ -39,6 +41,8 @@ public class VidinotiAROptions {
         private VidinotiLanguage defaultLanguage = VidinotiLanguage.EN;
         private Set<VidinotiLanguage> supportedLanguages = Collections.emptySet();
         private String defaultTag = null;
+        private String customApiServer = null;
+        private String customSdkServer = null;
 
         public Builder(String licenseKey) {
             this.licenseKey = licenseKey;
@@ -81,6 +85,16 @@ public class VidinotiAROptions {
             return this;
         }
 
+        public Builder setCustomApiServer(String url) {
+            this.customApiServer = url;
+            return this;
+        }
+
+        public Builder setCustomSdkServer(String url) {
+            this.customSdkServer = url;
+            return this;
+        }
+
         public VidinotiAROptions build() {
             VidinotiAROptions options = new VidinotiAROptions();
             options.licenseKey = this.licenseKey;
@@ -91,6 +105,8 @@ public class VidinotiAROptions {
             options.multilingualEnabled = this.multilingualEnabled;
             options.supportedLanguages = this.supportedLanguages;
             options.synchronizationMode = this.synchronizationMode;
+            options.customApiServer = this.customApiServer;
+            options.customSdkServer = this.customSdkServer;
             return options;
         }
     }
@@ -127,4 +143,11 @@ public class VidinotiAROptions {
         return defaultLanguage;
     }
 
+    public String getCustomApiServer() {
+        return customApiServer;
+    }
+
+    public String getCustomSdkServer() {
+        return customSdkServer;
+    }
 }

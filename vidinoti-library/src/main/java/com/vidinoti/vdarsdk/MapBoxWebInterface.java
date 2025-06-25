@@ -30,6 +30,11 @@ public class MapBoxWebInterface {
     }
 
     @JavascriptInterface
+    public String getSdkServer() {
+        return VidinotiAR.getInstance().getSdkServer();
+    }
+
+    @JavascriptInterface
     public String getMapBoxAccessToken() {
         return this.config.getAccessToken();
     }

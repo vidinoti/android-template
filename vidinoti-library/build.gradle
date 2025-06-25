@@ -41,7 +41,7 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.release
+                from components.findByName('release')
                 groupId = 'com.github.vidinoti'
                 artifactId = 'android-template'
                 version = '1.22.1'

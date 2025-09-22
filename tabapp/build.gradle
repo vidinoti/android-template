@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.vidinoti.tabapp'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.vidinoti.tabapp"
